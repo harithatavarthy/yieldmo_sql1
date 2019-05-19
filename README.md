@@ -63,3 +63,42 @@ pull out all usernames of people who had an active subscription during Q4 2018 a
       ('811', '3000', '902', '2018-05-01', '2019-06-30'),
       ('812', '4000', '905', '2018-04-01', '2018-09-30')
       ;
+  # Lets manually identify and seperate the records from subsciption table that are active in Q3 2018
+  
+  
+      ('805', '1000', '901', '2018-05-19', '2018-09-15'),
+      ('806', '2000', '901', '2018-05-19', '2018-08-15'),
+      ('807', '2000', '902', '2018-05-19', '2018-08-15'),
+      ('812', '4000', '905', '2018-04-01', '2018-09-30')
+   
+# Lets lets take the above narrowed down list and compare it against with subscription data to see if any of them are active now. We will ignore the active ones and list the ones that are currently not active
+   
+        ('805', '1000', '901', '2018-05-19', '2018-09-15'),
+        ('812', '4000', '905', '2018-04-01', '2018-09-30')
+# We will now note down the user_ids and do a lookup on `user` table to list the full_names 
+   
+        user_id : 1000 --> full_name : aeron targerian
+        user_id : 4000 --> full_name : rhegar targerian
+        
+# Now we will automate the process by executing a SQL
+
+        select distinct(l.full_name) 
+        from subscription k left join user l 
+        on 
+            k.user_id = l.user_id 
+        where
+            (extract(YEAR FROM k.subscription_startdate) = 2018 and extract(QUARTER from k.subscription_startdate) = 3)
+            or
+            (extract(YEAR FROM k.subscription_enddate) = 2018 and extract(QUARTER from k.subscription_enddate) = 3)
+        and k.user_id not in
+            (select a.user_id from user a , subscription c 
+            where a.user_id = c.user_id  
+            and current_date  between c.subscription_startdate and c.subscription_enddate
+            )
+   
+   
+   
+  
+   
+ 
+  

@@ -75,12 +75,13 @@ pull out all usernames of people who had an active subscription during Q4 2018 a
    
         ('805', '1000', '901', '2018-05-19', '2018-09-15'),
         ('812', '4000', '905', '2018-04-01', '2018-09-30')
-# We will now note down the user_ids and do a lookup on `user` table to list the full_names 
+# We will now note down the user_ids and do a lookup on `user` table to list the users full_names 
    
         user_id : 1000 --> full_name : aeron targerian
         user_id : 4000 --> full_name : rhegar targerian
         
-# Now we will automate the process by executing a SQL
+# Now we will automate the process through  a SQL script. 
+### SQL starts from subsctiption table and  performing a left join user table. The first condition is to limit the records to users who had a subscription in Q3 2018 and the second condition is to verify if any of those users currently do not have an active subscription. The second condition is met by performing a lookup on the results of a subquery.
 
         select distinct(l.full_name) 
         from subscription k left join user l 
@@ -95,6 +96,13 @@ pull out all usernames of people who had an active subscription during Q4 2018 a
             where a.user_id = c.user_id  
             and current_date  between c.subscription_startdate and c.subscription_enddate
             )
+ 
+ # Output of the SQL run
+ 
+        full_name
+        --------------
+        aeron targerian
+        rhegar targerian
    
    
    

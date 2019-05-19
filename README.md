@@ -1,7 +1,7 @@
 # yieldmo_sql1
 pull out all usernames of people who had an active subscription during Q4 2018 and are not active now:
 
-# Define the DDL/schema to hold user, product and subsctiption data
+## Define the DDL/schema to hold user, product and subsctiption data
 
     CREATE TABLE IF NOT EXISTS `user` (
       `user_id` int(6)  NOT NULL,
@@ -28,7 +28,7 @@ pull out all usernames of people who had an active subscription during Q4 2018 a
       PRIMARY KEY (`subscription_id`)
     ) DEFAULT CHARSET=utf8;
     
-# Insert values into the above defined schemas
+## Insert values into the above defined schemas
 
     INSERT INTO `user` (`user_id`, `login_id`, `email`, `full_name`, `create_date`) VALUES
       ('1000', '001', 'u001@email.com', 'aeron targerian', '2013-05-19'),
@@ -63,7 +63,7 @@ pull out all usernames of people who had an active subscription during Q4 2018 a
       ('811', '3000', '902', '2018-05-01', '2019-06-30'),
       ('812', '4000', '905', '2018-04-01', '2018-09-30')
       ;
-  # Lets manually identify and seperate the records from subsciption table that are active in Q3 2018
+## Lets manually identify and seperate the records from subsciption table that are active in Q3 2018
   
   
       ('805', '1000', '901', '2018-05-19', '2018-09-15'),
@@ -71,11 +71,12 @@ pull out all usernames of people who had an active subscription during Q4 2018 a
       ('807', '2000', '902', '2018-05-19', '2018-08-15'),
       ('812', '4000', '905', '2018-04-01', '2018-09-30')
    
-# Lets lets take the above narrowed down list and compare it against with subscription data to see if any of them are active now. We will ignore the active ones and list the ones that are currently not active
+## Lets take the narrowed down list from prior step and compare it with subscription data to see if any of the users have active subscriptions today. We will ignore the active ones and list the users that who are not active as of today.
    
         ('805', '1000', '901', '2018-05-19', '2018-09-15'),
         ('812', '4000', '905', '2018-04-01', '2018-09-30')
-# We will now note down the user_ids and do a lookup on `user` table to list the users full_names 
+        
+## We will now use the user_ids and do a lookup on `user` table to extract the users full_names 
    
         user_id : 1000 --> full_name : aeron targerian
         user_id : 4000 --> full_name : rhegar targerian
